@@ -2,6 +2,7 @@ version: '3.8'
 
 networks:
   dd:
+    driver: bridge
 
 volumes:
   metrics:
@@ -45,5 +46,17 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - dd
+
+
+  pet_shop:
+    image: harbor.sflabs.com.br/processo/petshop:latest
+    container_name: pet-shop
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
     networks:
       - dd
