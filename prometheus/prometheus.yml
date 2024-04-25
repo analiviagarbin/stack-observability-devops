@@ -15,4 +15,3 @@ scrape_configs:
   - job_name: 'petshop'
     static_configs:
       - targets: ['pet-shop:3000']
-    metrics_path: /metrics
