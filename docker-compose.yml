@@ -4,10 +4,6 @@ networks:
   dd:
     driver: bridge
 
-volumes:
-  metrics:
-  dashboards:
-
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -15,17 +11,8 @@ services:
     restart: unless-stopped
     ports:
       - 9090:9090
-    expose:
-      - 9090
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - metrics:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - dd
 
@@ -36,17 +23,6 @@ services:
     restart: unless-stopped
     ports:
       - 9100:9100
-    expose:
-      - 9100
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     networks:
       - dd
 
@@ -57,8 +33,6 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
-    expose:
-      - 3000
     networks:
       - dd
 
@@ -69,5 +43,6 @@ services:
     restart: unless-stopped
     ports:
       - '3001:3000'
+    user: '0'
     volumes:
-      - dashboards:/var/lib/grafana
+      - './grafana/data:/var/lib/grafana'
