@@ -1,15 +1,15 @@
-# Stack de Observabilidade
+# Stack de Observabilidade 🔍📊
 
 Focada na parte de métricas, a stack executa um Prometheus, Node exporter, Grafana e uma aplicação que simula a quantidade de pessoas na fila de um petshop, e a avaliação delas. O node exporter e a aplicação do pet shop geram métricas que são recuperadas pelo Prometheus, com o Grafana foram criados 2 dashboards e um alerta.
 
-1. Ferramentas:
+### Ferramentas:
 - Docker
 - Prometheus
 - Node-exporter
 - Grafana
 
 
-2. Requisitos:
+### Requisitos:
 - Docker
 - Docker Compose
 
@@ -31,7 +31,7 @@ sudo docker compose up -d
 sudo docker ps
 ```
 
-
+\
 ### Aplicações
 
 Disponibilidade de métricas e funcionalidades para cada ferramenta:
@@ -56,7 +56,7 @@ https://localhost:3000/
 https://localhost:3001/
 ```
 
-
+\
 ### Visualizando Dashboards (Grafana)
 
 - Acessar credenciais disponíveis na pasta ```./grafana/credenciais.md```
