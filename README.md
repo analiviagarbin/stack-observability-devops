@@ -8,9 +8,11 @@ Focada na parte de métricas, a stack executa um Prometheus, Node exporter, Graf
 - Node-exporter
 - Grafana
 
+
 2. Requisitos:
 - Docker
 - Docker Compose
+
 
 ### Executando
 
@@ -28,6 +30,7 @@ sudo docker compose up -d
 ```
 sudo docker ps
 ```
+
 
 ### Aplicações
 
@@ -53,4 +56,7 @@ https://localhost:3000/
 https://localhost:3001/
 ```
 
-### Visualizando Dashboards
+
+### Visualizando Dashboards (Grafana)
+
+- Acessar credenciais disponíveis na pasta ```./grafana/credenciais.md```
