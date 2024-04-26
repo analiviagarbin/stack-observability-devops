@@ -20,7 +20,7 @@ Focada na parte de métricas, a stack executa um Prometheus, Node exporter, Graf
 
 1. Clonar o repositório
 ```
-git clone https://github.com/analiviagarbin/devops-ps.git
+git clone https://github.com/analiviagarbin/stack-observability-devops.git
 ```
 
 2. Rodar os containers
