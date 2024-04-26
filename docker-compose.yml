@@ -1,5 +1,8 @@
 version: '3.8'
 
+volumes:
+  prometheus:
+
 networks:
   dd:
     driver: bridge
@@ -13,6 +16,7 @@ services:
       - 9090:9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus:/prometheus
     networks:
       - dd
 
@@ -42,7 +46,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     ports:
-      - '3001:3000'
+      - 3001:3000
     user: '0'
     volumes:
       - './grafana/data:/var/lib/grafana'
