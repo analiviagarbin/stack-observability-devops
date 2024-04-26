@@ -14,6 +14,7 @@ Focada na parte de métricas, a stack executa um Prometheus, Node exporter, Graf
 - Docker Compose
 
 
+<br />
 ### Executando
 
 1. Clonar o repositório
@@ -31,7 +32,7 @@ sudo docker compose up -d
 sudo docker ps
 ```
 
-\
+<br />
 ### Aplicações
 
 Disponibilidade de métricas e funcionalidades para cada ferramenta:
@@ -56,7 +57,7 @@ https://localhost:3000/
 https://localhost:3001/
 ```
 
-\
+<br />
 ### Visualizando Dashboards (Grafana)
 
 - Acessar credenciais disponíveis na pasta ```./grafana/credenciais.md```
