@@ -1,0 +1,16 @@
+- name: Deploy Stack
+  hosts: server
+  remote_user: ana
+  become: yes
+
+  tasks:
+    - name: install docker
+      apt:
+        name: docker.io
+        state: present
+
+
+    - name: install docker compose
+      apt:
+        name: docker-compose
+        state: present
