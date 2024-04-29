@@ -6,20 +6,34 @@
   tasks:
     - name: requirements
       apt:
-        name: rsync
+        name:
+          - rsync
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        update_cache: yes
+
+
+    - name: add docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
 
-    - name: install docker
+    - name: add docker repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+
+    - name: update apt and install engine
       apt:
-        name: docker.io
-        state: present
-
-
-    - name: install docker compose
-      apt:
-        name: docker-compose
-        state: present
+        name:
+          - docker-ce
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
 
 
     - name: create /deploy path
@@ -40,10 +54,10 @@
         state: directory
 
 
-    - name: copy docker-compose-deploy.yml
+    - name: copy docker-compose.yml
       copy:
-        src: "../deploy/docker-compose-deploy.yml"
-        dest: "deploy/docker-compose-deploy.yml"
+        src: "../deploy/docker-compose.yml"
+        dest: "deploy/docker-compose.yml"
       register: config_copy
 
     
@@ -58,3 +72,9 @@
       synchronize:
         src: "../grafana/data"
         dest: "deploy/grafana"
+
+
+    - name: docker compose up 
+      command:
+        cmd: docker compose up -d
+        chdir: "deploy"
