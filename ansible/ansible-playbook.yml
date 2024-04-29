@@ -4,6 +4,12 @@
   become: yes
 
   tasks:
+    - name: requirements
+      apt:
+        name: rsync
+        state: present
+
+
     - name: install docker
       apt:
         name: docker.io
@@ -39,3 +45,16 @@
         src: "../deploy/docker-compose-deploy.yml"
         dest: "deploy/docker-compose-deploy.yml"
       register: config_copy
+
+    
+    - name: copy prometheus.yml config
+      copy:
+        src: "../prometheus/prometheus.yml"
+        dest: "deploy/prometheus/prometheus.yml"
+      register: config_prometheus_copy
+
+
+    - name: copy grafana data path
+      synchronize:
+        src: "../grafana/data"
+        dest: "deploy/grafana"
