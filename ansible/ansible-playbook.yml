@@ -14,3 +14,28 @@
       apt:
         name: docker-compose
         state: present
+
+
+    - name: create /deploy path
+      file:
+        path: "deploy"
+        state: directory
+
+
+    - name: create /prometheus path
+      file: 
+        path: "deploy/prometheus"
+        state: directory
+
+
+    - name: create /grafana path
+      file: 
+        path: "deploy/grafana"
+        state: directory
+
+
+    - name: copy docker-compose-deploy.yml
+      copy:
+        src: "../deploy/docker-compose-deploy.yml"
+        dest: "deploy/docker-compose-deploy.yml"
+      register: config_copy
