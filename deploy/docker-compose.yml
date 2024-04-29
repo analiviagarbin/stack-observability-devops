@@ -12,10 +12,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ~/deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    depends_on:
-      - node-exporter
-      - petshop
+      - './prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
     networks:
       - dd
 
@@ -48,4 +45,4 @@ services:
       - 3001:3000
     user: '0'
     volumes:
-      - ~/deploy/grafana:/var/lib/grafana
+      - './grafana/data:/var/lib/grafana'
