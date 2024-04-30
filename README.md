@@ -7,16 +7,18 @@ Focada na parte de métricas, a stack executa um Prometheus, Node exporter, Graf
 - Prometheus
 - Node-exporter
 - Grafana
+- Ansible
 
 
 ### Requisitos:
 - Docker
 - Docker Compose
+- Ansible
 
 
 <br />
 
-### Executando
+### Executando Localmente
 
 1. Clonar o repositório
 ```
@@ -64,3 +66,9 @@ https://localhost:3001/
 ### Visualizando Dashboards (Grafana)
 
 - Acessar credenciais disponíveis na pasta ```./grafana/credenciais.md```
+
+<br />
+
+### Execução Remota
+
+- Instruções para executar o programa em um servidor remoto utilizando o ansible-playbook.
