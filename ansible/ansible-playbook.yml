@@ -8,32 +8,53 @@
       apt:
         name:
           - rsync
-          - apt-transport-https
           - ca-certificates
           - curl
-          - software-properties-common
         update_cache: yes
-
-
-    - name: add docker GPG apt key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
         state: present
+      
+
+    - name: check if docker is installed
+      command: docker -v 
+      register: docker_installed
+      ignore_errors: true
 
 
-    - name: add docker repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
-        state: present
+    - name: install docker
+      block:
+      - name: add docker GPG apt key
+        ansible.builtin.shell:
+          cmd: |
+            sudo install -m 0755 -d /etc/apt/keyrings
+            sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+            sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+      - name: add docker repository
+        block:
+            - name: add repos
+              ansible.builtin.shell:
+                cmd: |
+                  echo \
+                  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+                  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+                  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+            - name: update apt
+              apt:
+                update_cache: yes
 
 
-    - name: update apt and install engine
-      apt:
-        name:
-          - docker-ce
-          - docker-compose-plugin
-        state: latest
-        update_cache: true
+      - name: install docker packages
+        ansible.builtin.apt:
+          name:
+            - docker-ce 
+            - docker-ce-cli 
+            - containerd.io 
+            - docker-buildx-plugin 
+            - docker-compose-plugin
+          state: latest
+          update_cache: yes
+      when: docker_installed.failed
 
 
     - name: create /deploy path
@@ -74,7 +95,21 @@
         dest: "deploy/grafana"
 
 
-    - name: docker compose up 
+    - name: docker compose up containers
       command:
         cmd: docker compose up -d
         chdir: "deploy"
+
+
+    - name: verifica docker ps
+      shell: docker ps
+      register: docker_ps
+      changed_when: false
+
+
+    - name: verifica containers do docker ps
+      assert:
+        that:
+          - docker_ps.stdout_lines | length > 3
+        fail_msg: "containers não foram iniciados"
+        success_msg: "containers foram iniciados"
