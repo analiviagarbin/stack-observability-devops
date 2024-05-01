@@ -57,7 +57,7 @@ https://localhost:9100/
 
 - Pet Shop:
 ```
-https://localhost:3000/
+https://localhost:3000/metrics/
 ```
 
 - Grafana:
